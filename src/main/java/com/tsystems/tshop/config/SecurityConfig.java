@@ -24,16 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  	protected void configure(HttpSecurity http) throws Exception {
  		http
  		.authorizeRequests()
- 		//.antMatchers("/**")//.permitAll().anyRequest()
  			.antMatchers("/api/**").hasRole("USER")
  			.anyRequest().authenticated()
  			.and()
  				// Possibly more configuration ...
- 				//.httpBasic()
- 				//.and()
- 		.formLogin() // enable form based log in
- 				// set permitAll for all URLs associated with Form Login
- 			.permitAll();
+ 		.httpBasic();
  	}
 
  	@Override

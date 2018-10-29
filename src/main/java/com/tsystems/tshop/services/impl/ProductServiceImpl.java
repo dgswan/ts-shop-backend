@@ -1,5 +1,7 @@
 package com.tsystems.tshop.services.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.tsystems.tshop.domain.Product;
@@ -17,6 +19,10 @@ public class ProductServiceImpl implements ProductService {
 
 	public Product getProductById(final Long id) {
 		return productRepository.getProductById(id);
+	}
+	
+	public List<Product> getProducts() {
+		return productRepository.getProducts();
 	}
 
 }

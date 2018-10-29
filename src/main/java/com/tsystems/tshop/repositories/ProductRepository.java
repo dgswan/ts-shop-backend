@@ -1,5 +1,7 @@
 package com.tsystems.tshop.repositories;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -16,6 +18,7 @@ import com.tsystems.tshop.domain.Product;
 public class ProductRepository {
 	
 	private static final String GET_PRODUCT_BY_ID_QUERY = "getProductById";
+	private static final String GET_ALL_PRODUCTS_QUERY = "getAllProducts";
 	
 	@Autowired
 	private Environment env;
@@ -30,6 +33,12 @@ public class ProductRepository {
 		final SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
 				.addValue("id", id);
 		return namedParameterJdbcTemplate.queryForObject(env.getProperty(GET_PRODUCT_BY_ID_QUERY),
+				sqlParameterSource, BeanPropertyRowMapper.newInstance(Product.class));
+	}
+	
+	public List<Product> getProducts() {
+		final SqlParameterSource sqlParameterSource = new MapSqlParameterSource();
+		return namedParameterJdbcTemplate.query(env.getProperty(GET_ALL_PRODUCTS_QUERY),
 				sqlParameterSource, BeanPropertyRowMapper.newInstance(Product.class));
 	}
 

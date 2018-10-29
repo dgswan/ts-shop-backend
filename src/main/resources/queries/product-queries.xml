@@ -16,4 +16,16 @@
         	]]>
 	</entry>
 
+		<entry key="getAllProducts">
+        	<![CDATA[
+                SELECT
+                	id AS id,
+                	name AS name,
+                	price AS price,
+                	in_stock AS inStock,
+                	volume AS volume
+                FROM products
+        	]]>
+	</entry>
+
 </properties>

@@ -1,5 +1,7 @@
 package com.tsystems.tshop.controllers;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,11 @@ public class ProductController {
 	@GetMapping("/{id}")
 	public Product getProduct(@PathVariable Long id) {
 		return productService.getProductById(id);
+	}
+	
+	@GetMapping
+	public List<Product> getProducts() {
+		return productService.getProducts();
 	}
 
 }

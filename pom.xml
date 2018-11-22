@@ -16,6 +16,9 @@
 		<logback.version>1.2.3</logback.version>
 		<jackson.version>2.9.6</jackson.version>
 		<h2.version>1.4.197</h2.version>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -63,6 +66,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
@@ -96,5 +105,15 @@
 	</dependencies>
 	<build>
 		<finalName>tshop</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  	public void configure(WebSecurity web) throws Exception {
  		web.ignoring()
  		// Spring Security should completely ignore URLs starting with /resources/
- 				.antMatchers("/resources/**");
+ 				.antMatchers("/resources/**", "/*.js", "/*.css");
  	}
 
  	@Override
@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.and()
  		.authorizeRequests()
+                .antMatchers("/").permitAll()
 				.antMatchers("/api/login").permitAll()
  			.antMatchers("/api/**").hasRole("USER")
  			.anyRequest().authenticated()

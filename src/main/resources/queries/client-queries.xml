@@ -17,6 +17,13 @@
         	]]>
 	</entry>
 
+	<entry key="addClient">
+		<![CDATA[
+                INSERT INTO clients (name, surname, email)
+                VALUES (:name, :surname, :email)
+        	]]>
+	</entry>
+
 	<entry key="getAllClients">
         	<![CDATA[
                 SELECT

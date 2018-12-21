@@ -3,10 +3,7 @@ package com.tsystems.tshop.controllers;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.tsystems.tshop.domain.Client;
 import com.tsystems.tshop.services.ClientService;
@@ -31,6 +28,12 @@ public class ClientController {
 	@ResponseBody
 	public List<Client> getClients() {
 		return clientService.getClients();
+	}
+
+	@PostMapping
+	@ResponseBody
+	public Number addClient(@RequestBody Client client) {
+		return clientService.addClient(client);
 	}
 
 }

@@ -9,5 +9,7 @@ public interface ClientService {
 	Client getClientById(final Long id);
 	
 	List<Client> getClients();
+
+	Number addClient(Client client);
 	
 }

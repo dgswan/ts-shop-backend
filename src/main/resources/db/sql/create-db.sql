@@ -9,7 +9,7 @@ CREATE TABLE products (
 );
 
 CREATE TABLE clients (
-  id   INTEGER PRIMARY KEY,
+  id   INTEGER AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(500),
   surname  VARCHAR(500),
   email  VARCHAR(500),

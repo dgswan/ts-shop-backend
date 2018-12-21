@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.tsystems.tshop.domain.Client;
@@ -21,6 +23,7 @@ public class ClientRepository {
 	private Environment env;
 	
 	private static final String GET_CLIENT_BY_ID_QUERY = "getClientById";
+	private static final String ADD_CLIENT_QUERY = "addClient";
 	private static final String GET_ALL_CLIENTS_QUERY = "getAllClients";
 	
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -40,6 +43,17 @@ public class ClientRepository {
 		final SqlParameterSource sqlParameterSource = new MapSqlParameterSource();
 		return namedParameterJdbcTemplate.query(env.getProperty(GET_ALL_CLIENTS_QUERY),
 				sqlParameterSource, BeanPropertyRowMapper.newInstance(Client.class));
+	}
+
+	public Number addClient(Client client) {
+		final SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+                .addValue("name", client.getName())
+                .addValue("surname", client.getSurname())
+                .addValue("email", client.getEmail());
+		final KeyHolder keyHolder = new GeneratedKeyHolder();
+		namedParameterJdbcTemplate.update(env.getProperty(ADD_CLIENT_QUERY),
+				sqlParameterSource, keyHolder);
+		return keyHolder.getKey();
 	}
 	
 }

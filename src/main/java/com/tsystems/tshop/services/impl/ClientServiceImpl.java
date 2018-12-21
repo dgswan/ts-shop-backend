@@ -25,4 +25,8 @@ public class ClientServiceImpl implements ClientService {
 		return clientRepository.getAllUsers();
 	}
 
+	@Override
+	public Number addClient(Client client) {
+		return clientRepository.addClient(client);
+	}
 }

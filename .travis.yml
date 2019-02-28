@@ -1,4 +1,6 @@
 language: java
 jdk: openjdk11
+script:
+- ./mvnw install -Ptravis -Dmaven.javadoc.skip=true -B -V
 after_success:
 - bash <(curl -s https://codecov.io/bash)

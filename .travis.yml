@@ -1,6 +1,11 @@
+addons:
+  sonarcloud:
+    organization: "lebedkodmitry-github"
+    token:
+      secure: $SONAR_TOKEN
 language: java
 jdk: openjdk11
 script:
-- mvn install -Ptravis -Dmaven.javadoc.skip=true -B -V
+- mvn install sonar:sonar -Ptravis -Dmaven.javadoc.skip=true -B -V
 after_success:
 - bash <(curl -s https://codecov.io/bash)

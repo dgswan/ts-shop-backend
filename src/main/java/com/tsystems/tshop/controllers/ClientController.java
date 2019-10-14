@@ -18,6 +18,11 @@ public class ClientController {
 		this.clientService = clientService;
 	}
 
+	/**
+	  Gets a client by her / his ID.
+	  @param id - client id
+	  @return the client
+	*/
 	@RequestMapping(method = RequestMethod.GET, path = "/{id}")
 	@ResponseBody
 	public Client getClient(@PathVariable Long id) {

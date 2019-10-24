@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
  	@Override
- 	public void configure(WebSecurity web) throws Exception {
+ 	public void configure(WebSecurity web) {
  		web.ignoring()
  		// Spring Security should completely ignore URLs starting with /resources/
  				.antMatchers("/resources/**", "/*.js", "/*.css");

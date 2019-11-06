@@ -1,17 +1,19 @@
 package com.tsystems.tshop.config;
 
+import com.tsystems.tshop.security.JwtAuthenticationFilter;
+import com.tsystems.tshop.security.JwtAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity(debug = true)
 @Configuration
@@ -27,24 +29,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
  	@Override
  	protected void configure(HttpSecurity http) throws Exception {
- 		http
-				.csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.and()
+ 		http.cors().and()
+				.csrf().disable()
  		.authorizeRequests()
-                .antMatchers("/").permitAll()
-				.antMatchers("/api/login").permitAll()
- 			.antMatchers("/api/**").permitAll()
- 			.anyRequest().permitAll()
+ 			.anyRequest().authenticated()
  			.and()
- 				// Possibly more configuration ...
- 		.httpBasic()
-				.authenticationEntryPoint(authenticationEntryPoint())
-				.and()
-				.logout().logoutUrl("/api/logout")
-				.logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
-				.invalidateHttpSession(true)
-				.deleteCookies("JSESSIONID");
+				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
+				.addFilter(new JwtAuthorizationFilter(authenticationManager()))
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
  	}
 
  	@Override
@@ -58,9 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  		.withUser("admin").password("password").roles("USER", "ADMIN");
  	}
 
- 	@Bean
- 	public AuthenticationEntryPoint authenticationEntryPoint() {
-		return new CustomAuthenticationEntryPoint();
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+
+		return source;
 	}
 	
 }

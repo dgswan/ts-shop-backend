@@ -18,9 +18,11 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,14 +47,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(SecurityConstants.TOKEN_HEADER);
-        if (!StringUtils.isEmpty(token) && token.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+        // String token = request.getHeader(SecurityConstants.TOKEN_HEADER);
+        String token = request.getCookies() != null ? Arrays.stream(request.getCookies()).filter(c -> "JWT".equals(c.getName())).findFirst().map(Cookie::getValue).orElse(null) :
+                null;
+        if (!StringUtils.isEmpty(token)) {
             try {
                 byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
 
                 Jws<Claims> parsedToken = Jwts.parser()
                         .setSigningKey(signingKey)
-                        .parseClaimsJws(token.replace("Bearer ", ""));
+                        // .parseClaimsJws(token.replace("Bearer ", ""));
+                        .parseClaimsJws(token);
 
                 String username = parsedToken
                         .getBody()

@@ -2,6 +2,7 @@ package com.tsystems.tshop.config;
 
 import com.tsystems.tshop.security.JwtAuthenticationFilter;
 import com.tsystems.tshop.security.JwtAuthorizationFilter;
+import com.tsystems.tshop.security.JwtLogoutFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  			.and()
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager()))
+				.addFilter(new JwtLogoutFilter())
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
  	}
